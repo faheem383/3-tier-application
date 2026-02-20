@@ -91,6 +91,8 @@ jobs:
         run: |
           # Deployment ingress controller
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+          
       - name: Apply seployment (ui + api)
         run: |
           # Save full URL
