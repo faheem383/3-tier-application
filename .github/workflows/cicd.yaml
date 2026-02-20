@@ -43,8 +43,8 @@ jobs:
           context: ./${{ matrix.app }}
           push: true
           tags: |
-            ${{ env.DOCKER_ORG }}/lab-${{ matrix.app }}:${{ github.sha }}
-            ${{ env.DOCKER_ORG }}/lab-${{ matrix.app }}:latest
+            ${{ env.DOCKER_ORG }}/basic3tier-${{ matrix.app }}:${{ github.sha }}
+            ${{ env.DOCKER_ORG }}/basic3tier-${{ matrix.app }}:latest
           cache-from: type=gha
           cache-to:   type=gha,mode=max
 
@@ -108,6 +108,22 @@ jobs:
           # Deployment ui + api
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/api-deployment.yaml
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/ui-deployment.yaml
+
+      - name: Set images to new tag
+        run: |
+          TAG=${{ github.sha }}
+          kubectl -n "$K8S_NAMESPACE" set image deployment/k8s/api-deployment  api-container="${DOCKER_ORG}/basic3tier-api:${TAG}"
+          kubectl -n "$K8S_NAMESPACE" set image deployment/k8s/ui-deployment ui-container="${DOCKER_ORG}/basic3tier-ui:${TAG}"
+             
+      - name: Wait for rollouts
+        run: |
+          kubectl -n "$K8S_NAMESPACE" rollout status deploy/api-deployment  --timeout=120s
+          kubectl -n "$K8S_NAMESPACE" rollout status deploy/ui-deployment --timeout=120s
+    
+      - name: Smoke test
+        run: |
+          curl -sf "http://${INGRESS_HOST}/api/ping" && echo " ✓ Backend reachable"
+ 
 
 
            

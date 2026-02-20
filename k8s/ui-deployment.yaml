@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ui-container
-        image: cocomo1/lab-ui:latest
+        image: cocomo1/basic3tier-ui:latest
         ports:
         - containerPort: 80
         # Optional environment variable if using dynamic config
