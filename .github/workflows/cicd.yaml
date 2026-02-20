@@ -92,13 +92,22 @@ jobs:
           # Deployment ingress controller
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 
-          
-      - name: Apply seployment (ui + api)
+
+      - name: Verify Ingress Exists
         run: |
-          # Save full URL
-          HOSTNAME=$(kubectl get ingress app-ingress -n $K8S_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')  
-          echo "APP_URL=http://$HOSTNAME" >> $GITHUB_ENV
-      
+            kubectl get ingress app-ingress -n project2
+
+      - name: Verify Ingress Has Address
+        run: |
+            HOST=$(kubectl get ingress app-ingress -n project2 
+            -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        
+            if [ -z "$HOST" ]; then
+            echo "Ingress not ready!"
+            exit 1
+            fi
+
+            echo "Ingress ready at $HOST"
            
 
           
