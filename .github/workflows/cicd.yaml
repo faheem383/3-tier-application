@@ -83,5 +83,19 @@ jobs:
           # Deployment ui + api
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/api-deployment.yaml
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/ui-deployment.yaml
+      - name: Apply Ingres
+        run: |
+          # Ingres
+          kubectl apply -n "$K8S_NAMESPACE" -f k8s/app-ingress.yaml
+      - name: Install NGINX Ingress Controller
+        run: |
+          # Deployment ingress controller
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+      - name: Apply seployment (ui + api)
+        run: |
+          # Save full URL
+          HOSTNAME=$(kubectl get ingress app-ingress -n $K8S_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')  echo "APP_URL=http://$HOSTNAME" >> $GITHUB_ENV
+      
+           
 
           
