@@ -99,15 +99,14 @@ jobs:
 
       - name: Verify Ingress Has Address
         run: |
-            HOST=$(kubectl get ingress app-ingress -n project2 
-            -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-        
-            if [ -z "$HOST" ]; then
+          HOST=$(kubectl get ingress app-ingress -n project2 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+    
+          if [ -z "$HOST" ]; then
             echo "Ingress not ready!"
             exit 1
-            fi
+          fi
 
-            echo "Ingress ready at $HOST"
+          echo "Ingress ready at $HOST"
            
 
           
