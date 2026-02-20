@@ -112,8 +112,8 @@ jobs:
       - name: Set images to new tag
         run: |
           TAG=${{ github.sha }}
-          kubectl -n "$K8S_NAMESPACE" set image deployment/k8s/api-deployment  api-container="${DOCKER_ORG}/basic3tier-api:${TAG}"
-          kubectl -n "$K8S_NAMESPACE" set image deployment/k8s/ui-deployment ui-container="${DOCKER_ORG}/basic3tier-ui:${TAG}"
+          kubectl -n "$K8S_NAMESPACE" set image deployment/api-deployment  api-container="${DOCKER_ORG}/basic3tier-api:${TAG}"
+          kubectl -n "$K8S_NAMESPACE" set image deployment/ui-deployment ui-container="${DOCKER_ORG}/basic3tier-ui:${TAG}"
              
       - name: Wait for rollouts
         run: |
