@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-deployment
+  namespace: project2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basic3tier-ui
+  template:
+    metadata:
+      labels:
+        app: basic3tier-ui
+    spec:
+      containers:
+      - name: ui-container
+        image: cocomo1/basic3tier-ui:latest
+        ports:
+        - containerPort: 80
+        # Optional environment variable if using dynamic config
+        env:
+        - name: API_URL
+          value: "http://a7cb2a0d5875b4d41b3d9149a97ee5df-861918573.eu-central-1.elb.amazonaws.com/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-service
+  namespace: project2
+spec:
+  selector:
+    app: basic3tier-ui
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
