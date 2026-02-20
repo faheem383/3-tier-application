@@ -94,7 +94,8 @@ jobs:
       - name: Apply seployment (ui + api)
         run: |
           # Save full URL
-          HOSTNAME=$(kubectl get ingress app-ingress -n $K8S_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')  echo "APP_URL=http://$HOSTNAME" >> $GITHUB_ENV
+          HOSTNAME=$(kubectl get ingress app-ingress -n $K8S_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')  
+          echo "APP_URL=http://$HOSTNAME" >> $GITHUB_ENV
       
            
 
