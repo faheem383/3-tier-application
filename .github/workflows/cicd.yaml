@@ -122,7 +122,13 @@ jobs:
     
       - name: Smoke test
         run: |
-          curl -sf "http://${INGRESS_HOST}/api/ping" && echo " ✓ Backend reachable" &&  echo $INGRESS_HOST
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://${INGRESS_HOST}/api/user")
+            if [ "$STATUS" -eq 200 ]; then
+              echo "✓ Backend reachable (200 OK)"
+            else
+              echo "✗ Backend unreachable (Status: $STATUS)"
+              exit 1
+            fi
  
 
 
