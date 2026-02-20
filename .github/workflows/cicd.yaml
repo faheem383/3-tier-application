@@ -77,7 +77,7 @@ jobs:
       - name: Apply manifests (services + routing)
         run: |
           # Services
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/api-deployment.yaml.yaml
+          kubectl apply -n "$K8S_NAMESPACE" -f k8s/api-deployment.yaml
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/ui-deployment.yaml
 
           
