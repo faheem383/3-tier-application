@@ -74,10 +74,13 @@ jobs:
       - name: Ensure namespace exists
         run: kubectl get ns "$K8S_NAMESPACE" || kubectl create ns "$K8S_NAMESPACE"
 
-      - name: Apply postgres
+      - name: Apply Postgres
         run: |
-          # deployment postgres
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
+            # Apply Postgres deployment
+            kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
+
+            # Wait for Postgres pod to be ready
+            kubectl wait --for=condition=ready pod -l app=postgres -n "$K8S_NAMESPACE" --timeout=120s
       
       - name: Apply Ingres
         run: |
