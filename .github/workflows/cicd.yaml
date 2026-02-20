@@ -91,11 +91,11 @@ jobs:
 
       - name: Verify Ingress Exists
         run: |
-            kubectl get ingress app-ingress -n project2
+            kubectl get ingress app-ingress -n "$K8S_NAMESPACE"
 
       - name: Verify Ingress Has Address
         run: |
-          HOST=$(kubectl get ingress app-ingress -n project2 -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+          HOST=$(kubectl get ingress app-ingress -n "$K8S_NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
     
           if [ -z "$HOST" ]; then
             echo "Ingress not ready!"
