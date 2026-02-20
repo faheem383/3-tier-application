@@ -78,11 +78,7 @@ jobs:
         run: |
           # deployment postgres
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
-      - name: Apply seployment (ui + api)
-        run: |
-          # Deployment ui + api
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/api-deployment.yaml
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/ui-deployment.yaml
+      
       - name: Apply Ingres
         run: |
           # Ingres
@@ -107,6 +103,13 @@ jobs:
           fi
 
           echo "Ingress ready at $HOST"
+      - name: Apply seployment (ui + api)
+        run: |
+          # Deployment ui + api
+          kubectl apply -n "$K8S_NAMESPACE" -f k8s/api-deployment.yaml
+          kubectl apply -n "$K8S_NAMESPACE" -f k8s/ui-deployment.yaml
+
+
            
 
           
