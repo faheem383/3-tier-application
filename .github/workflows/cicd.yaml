@@ -73,14 +73,14 @@ jobs:
 
       - name: Ensure namespace exists
         run: kubectl get ns "$K8S_NAMESPACE" || kubectl create ns "$K8S_NAMESPACE"
-
-      - name: Create Postgres Secret
+      
+      - name: Apply Postgres Secret
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE }}
         run: |
-          kubectl create secret generic postgres-secret
-          --from-literal=POSTGRES_USER="${{ secrets.POSTGRES_USER }}"
-          --from-literal=POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
-          -n "$K8S_NAMESPACE"
-          --dry-run=client -o yaml | kubectl apply -f -
+          envsubst < postgres-secret.yaml | kubectl apply -f -  
 
       - name: Apply postgres
         run: |
