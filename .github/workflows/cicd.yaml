@@ -80,7 +80,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE }}
         run: |
-          envsubst < postgres-secret.yaml | kubectl apply -f -  
+          envsubst < k8s/postgres-secret.yaml | kubectl apply -f -  
 
       - name: Apply postgres
         run: |
