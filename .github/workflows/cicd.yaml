@@ -80,7 +80,7 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE }}
         run: |
-          envsubst < k8s/db-credentials.yaml | kubectl apply -f -  
+          envsubst < k8s/db-credentials.yaml | kubectl apply -n "$K8S_NAMESPACE"  -f -  
 
       - name: Apply postgres
         run: |
@@ -101,10 +101,10 @@ jobs:
       #    kubectl apply -n "$K8S_NAMESPACE" -f k8s/app-ingress.yaml
 
 
-      - name: Verify Ingress Exists
-        run: |
-            kubectl get ingress app-ingress -n "$K8S_NAMESPACE"
-
+      #- name: Verify Ingress Exists
+      #  run: |
+      #      kubectl get ingress app-ingress -n "$K8S_NAMESPACE"
+#
       #- name: Verify Ingress Has Address
       #  run: |
       #    HOST=$(kubectl get ingress app-ingress -n "$K8S_NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
