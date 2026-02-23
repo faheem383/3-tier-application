@@ -85,7 +85,8 @@ jobs:
       - name: Apply postgres
         run: |
           # deployment postgres
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
+          #kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
+          kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-statefulset.yaml
       
       - name: Apply Ingres
         run: |

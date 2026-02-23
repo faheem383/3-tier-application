@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: project2
+spec:
+  clusterIP: None    # 🔥 Required for StatefulSet
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-deployment
+  namespace: project2
+spec:
+  serviceName: postgres-service   # Required for StatefulSet
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "basic3tier"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+            - name: db-secret-volume
+              mountPath: "/etc/secrets"
+              readOnly: true
+      volumes:
+        - name: db-secret-volume
+          secret:
+            secretName: db-credentials
+
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: gp2
+        resources:
+          requests:
+            storage: 5Gi
+
