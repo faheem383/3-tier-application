@@ -88,10 +88,10 @@ jobs:
           #kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-statefulset.yaml
           
-      - name: Install NGINX Ingress Controller
-        run: |
-          # Deployment ingress controller
-          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+      #- name: Install NGINX Ingress Controller
+      #  run: |
+      #    # Deployment ingress controller
+      #    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 
 
 
@@ -108,12 +108,12 @@ jobs:
       #- name: Verify Ingress Has Address
       #  run: |
       #    HOST=$(kubectl get ingress app-ingress -n "$K8S_NAMESPACE" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-    #
+      #
       #    if [ -z "$HOST" ]; then
       #      echo "Ingress not ready!"
       #      exit 1
       #    fi
-#
+      #
       #    echo "Ingress ready at $HOST"
           
       - name: Apply seployment (ui + api)
