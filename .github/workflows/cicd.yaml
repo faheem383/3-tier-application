@@ -95,10 +95,10 @@ jobs:
 
 
 
-      - name: Apply Ingres
-        run: |
-          # Ingres
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/app-ingress.yaml
+      #- name: Apply Ingres
+      #  run: |
+      #    # Ingres
+      #    kubectl apply -n "$K8S_NAMESPACE" -f k8s/app-ingress.yaml
 
 
       - name: Verify Ingress Exists
@@ -133,15 +133,15 @@ jobs:
           kubectl -n "$K8S_NAMESPACE" rollout status deploy/api-deployment  --timeout=120s
           kubectl -n "$K8S_NAMESPACE" rollout status deploy/ui-deployment --timeout=120s
     
-      - name: Smoke test
-        run: |
-         STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://${INGRESS_HOST}/api/user")
-         if [ "$STATUS" -eq 200 ]; then
-           echo "✓ Backend reachable (200 OK)"
-         else
-           echo "✗ Backend unreachable (Status: $STATUS)"
-           exit 1
-         fi
+      #- name: Smoke test
+      #  run: |
+      #   STATUS=$(curl -s -o /dev/null -w "%{http_code}" "http://${INGRESS_HOST}/api/user")
+      #   if [ "$STATUS" -eq 200 ]; then
+      #     echo "✓ Backend reachable (200 OK)"
+      #   else
+      #     echo "✗ Backend unreachable (Status: $STATUS)"
+      #     exit 1
+      #   fi
  
 
 

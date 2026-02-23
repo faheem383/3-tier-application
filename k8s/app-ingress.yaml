@@ -4,7 +4,8 @@ metadata:
   name: app-ingress
   namespace: project2
 spec:
-  rules:
+  ingressClassName: nginx   # ← Add this line
+  rules:  
   - http:
       paths:
       - path: /
@@ -21,14 +22,3 @@ spec:
             name: api-service
             port:
               number: 80
-
-
-
-
-
-
-
-
-
-
-
