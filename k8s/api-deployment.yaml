@@ -19,8 +19,16 @@ spec:
         ports:
         - containerPort: 80
         env:
-        - name: ConnectionStrings__Basic3Tier
-          value: "Host=postgres-service;Port=5432;Database=basic3tier;Username=postgres;Password=admin123"
+          - name : ConnectionStrings__Basic3Tier
+            value : "Host=postgres-service;Port=5432;Database=basic3tier;Username=postgres;Password=admin123"
+        volumeMounts:
+          - name: db-secret-volume
+            mountPath: "/etc/secrets"
+            readOnly: true
+      volumes:
+        - name: db-secret-volume
+          secret:
+            secretName: db-credentials
 ---
 apiVersion: v1
 kind: Service
