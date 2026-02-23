@@ -87,15 +87,18 @@ jobs:
           # deployment postgres
           #kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-deployment.yaml
           kubectl apply -n "$K8S_NAMESPACE" -f k8s/postgres-statefulset.yaml
-      
-      - name: Apply Ingres
-        run: |
-          # Ingres
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/app-ingress.yaml
+          
       - name: Install NGINX Ingress Controller
         run: |
           # Deployment ingress controller
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+          
+
+      - name: Apply Ingres
+        run: |
+          # Ingres
+          kubectl apply -n "$K8S_NAMESPACE" -f k8s/app-ingress.yaml
 
 
       - name: Verify Ingress Exists
